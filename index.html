@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fleur Atelier — Floral Design · New Jersey</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --olive:    #5C6B3A;
+    --olive-lt: #8A9E5A;
+    --olive-dk: #3A4423;
+    --cream:    #F7F3EC;
+    --warm:     #EDE8DC;
+    --ink:      #1C1C1A;
+    --muted:    #7A7568;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--cream);
+    border-bottom: 1px solid rgba(92,107,58,0.12);
+  }
+  .nav-logo { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 20px; letter-spacing: 1px; color: var(--ink); text-decoration: none; }
+  .nav-logo em { color: var(--olive); font-style: normal; }
+  .nav-ig { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  .nav-ig:hover { color: var(--olive); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 24px 80px;
+  }
+  .hero-eyebrow { font-size: 9px; letter-spacing: 6px; text-transform: uppercase; color: var(--olive); margin-bottom: 20px; }
+  .hero-mark { width: 130px; height: 106px; margin-bottom: 20px; }
+  .hero-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: clamp(40px, 10vw, 72px); letter-spacing: 2px; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+  .hero-title em { color: var(--olive); font-style: normal; }
+  .hero-sub { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; }
+  .hero-desc { font-size: 14px; line-height: 1.85; color: var(--muted); max-width: 360px; margin-bottom: 36px; }
+  .btn-primary { display: inline-block; padding: 14px 32px; background: var(--olive); color: var(--cream); font-size: 10px; letter-spacing: 4px; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--olive-dk); }
+  .scroll-hint { margin-top: 48px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--olive-lt); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .scroll-hint::after { content: ''; width: 1px; height: 28px; background: var(--olive-lt); opacity: 0.5; }
+
+  .how { background: var(--warm); padding: 72px 24px; text-align: center; }
+  .section-eyebrow { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--olive); margin-bottom: 12px; display: block; }
+  .section-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: clamp(26px, 6vw, 40px); color: var(--ink); margin-bottom: 40px; }
+  .steps { display: flex; flex-direction: column; gap: 20px; max-width: 400px; margin: 0 auto; }
+  .step { display: flex; align-items: flex-start; gap: 16px; text-align: left; }
+  .step-num { font-family: 'Fraunces', serif; font-style: italic; font-size: 28px; color: var(--olive-lt); line-height: 1; flex-shrink: 0; width: 32px; }
+  .step-text { font-size: 13px; line-height: 1.75; color: var(--muted); padding-top: 4px; }
+  .step-text strong { color: var(--ink); font-weight: 400; display: block; margin-bottom: 2px; font-size: 14px; }
+
+  .palette-section { padding: 72px 24px; }
+  .palette-section .section-title { text-align: center; margin-bottom: 8px; }
+  .palette-note { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 36px; max-width: 360px; margin-left: auto; margin-right: auto; }
+  .palettes { display: flex; flex-direction: column; gap: 10px; max-width: 540px; margin: 0 auto; }
+  .palette-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid transparent; border-radius: 3px;
+    cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    background: var(--warm);
+  }
+  .palette-row:hover { border-color: var(--olive-lt); }
+  .palette-row.selected { border-color: var(--olive); background: rgba(92,107,58,0.06); }
+  .palette-dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
+  .palette-info { display: flex; flex-direction: column; }
+  .palette-name { font-size: 14px; color: var(--ink); font-weight: 300; }
+  .palette-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .palette-badge { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--olive); margin-top: 2px; }
+
+  .products { padding: 72px 24px; background: var(--warm); }
+  .products-header { text-align: center; margin-bottom: 48px; }
+  .products-note { text-align: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .product-cards { display: flex; flex-direction: column; gap: 16px; max-width: 540px; margin: 0 auto; }
+  .product-card { background: var(--cream); border-radius: 4px; padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .product-left { flex: 1; }
+  .product-name { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 22px; color: var(--ink); margin-bottom: 6px; }
+  .product-desc { font-size: 12px; line-height: 1.7; color: var(--muted); margin-bottom: 14px; }
+  .tiers { display: flex; gap: 20px; }
+  .tier { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .tier-size { font-size: 7px; letter-spacing: 3px; text-transform: uppercase; color: var(--olive); }
+  .tier-price { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); }
+  .product-cta { display: inline-block; margin-top: 12px; font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--olive); border-bottom: 1px solid var(--olive-lt); padding-bottom: 2px; text-decoration: none; }
+  .product-icon { width: 52px; height: 52px; flex-shrink: 0; }
+
+  /* ── GALLERY ── */
+  .gallery { background: var(--ink); padding: 72px 0; }
+  .gallery-head { padding: 0 24px; margin-bottom: 36px; text-align: center; }
+  .gallery-head .section-eyebrow { color: var(--olive-lt); }
+  .gallery-head .section-title { color: var(--cream); margin-bottom: 0; }
+
+  .carousel-wrap { position: relative; }
+  .carousel-track {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 24px 4px;
+    cursor: grab;
+  }
+  .carousel-track:active { cursor: grabbing; }
+  .carousel-track::-webkit-scrollbar { display: none; }
+
+  .carousel-card {
+    flex: 0 0 72vw;
+    max-width: 260px;
+    scroll-snap-align: start;
+    background: #252521;
+    border: 1px solid #2e2e2b;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .c-img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* placeholder when no real image */
+  .c-placeholder {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: #1e1e1b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .c-placeholder svg { opacity: 0.18; }
+  .c-placeholder span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+
+  .c-caption { padding: 14px 16px 18px; }
+  .c-tag {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--olive-lt); margin-bottom: 5px;
+  }
+  .c-name {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: 17px; color: var(--cream); margin-bottom: 3px;
+  }
+  .c-price { font-size: 12px; color: var(--muted); }
+
+  .carousel-controls {
+    display: flex; gap: 10px;
+    padding: 20px 24px 0;
+    justify-content: center;
+  }
+  .c-btn {
+    width: 40px; height: 40px;
+    border: 1px solid #2e2e2b;
+    background: transparent;
+    color: var(--cream);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 2px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .c-btn:hover { background: var(--olive); border-color: var(--olive); }
+
+  /* ── EVENTS ── */
+  .events { background: var(--olive-dk); padding: 80px 24px; text-align: center; }
+  .events .section-eyebrow { color: var(--olive-lt); }
+  .events .section-title { color: var(--cream); margin-bottom: 16px; }
+  .events-desc { font-size: 14px; line-height: 1.85; color: rgba(247,243,236,0.65); max-width: 380px; margin: 0 auto 36px; }
+  .event-tags { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+  .event-tag { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--olive-lt); border: 1px solid rgba(138,158,90,0.35); padding: 10px 18px; border-radius: 2px; }
+  .btn-outline { display: inline-block; padding: 14px 32px; border: 1px solid var(--olive-lt); color: var(--cream); font-size: 10px; letter-spacing: 4px; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s; }
+  .btn-outline:hover { background: rgba(138,158,90,0.15); }
+
+  footer { padding: 44px 24px; text-align: center; border-top: 1px solid rgba(92,107,58,0.12); }
+  .footer-logo { font-family: 'Fraunces', serif; font-style: italic; font-size: 20px; color: var(--ink); margin-bottom: 10px; }
+  .footer-logo em { color: var(--olive); font-style: normal; }
+  .footer-info { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); line-height: 2; }
+  .footer-ig { display: inline-block; margin-top: 14px; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--olive); text-decoration: none; border-bottom: 1px solid var(--olive-lt); padding-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Fleur <em>Atelier</em></a>
+  <a href="https://instagram.com/fleur_atelier_nj" target="_blank" class="nav-ig">@fleur_atelier_nj</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Bergen County · New Jersey</div>
+  <svg class="hero-mark" viewBox="0 0 160 130" fill="none">
+    <ellipse cx="58" cy="72" rx="22" ry="38" transform="rotate(-30 58 72)" fill="#8A9E5A" opacity="0.35"/>
+    <ellipse cx="104" cy="68" rx="18" ry="30" transform="rotate(20 104 68)" fill="#5C6B3A" opacity="0.25"/>
+    <ellipse cx="80" cy="90" rx="28" ry="16" transform="rotate(-10 80 90)" fill="#8A9E5A" opacity="0.2"/>
+    <path d="M80 125 Q78 100 72 80 Q66 60 60 40 Q56 28 58 16" stroke="#3A4423" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M80 125 Q84 98 92 76 Q100 56 108 38" stroke="#3A4423" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M74 88 Q60 80 45 72 Q34 66 28 58" stroke="#5C6B3A" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+    <path d="M44 28 Q52 14 60 28 Q52 46 44 28Z" stroke="#1C1C1A" stroke-width="1.4" fill="none"/>
+    <path d="M40 36 Q36 22 50 24 Q56 36 40 36Z" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+    <path d="M56 24 Q68 18 66 32 Q56 38 56 24Z" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+    <circle cx="52" cy="32" r="3.5" stroke="#1C1C1A" stroke-width="1.2" fill="none"/>
+    <circle cx="52" cy="32" r="1.5" fill="#5C6B3A" opacity="0.6"/>
+    <path d="M100 34 Q108 22 116 34 Q108 50 100 34Z" stroke="#1C1C1A" stroke-width="1.4" fill="none"/>
+    <path d="M96 42 Q94 30 106 32 Q110 42 96 42Z" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+    <path d="M112 30 Q122 26 120 38 Q110 44 112 30Z" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+    <circle cx="108" cy="38" r="3" stroke="#1C1C1A" stroke-width="1.2" fill="none"/>
+    <path d="M70 68 Q56 58 54 44 Q68 48 70 68Z" fill="#8A9E5A" opacity="0.3" stroke="#5C6B3A" stroke-width="1.2"/>
+    <path d="M88 72 Q102 62 104 48 Q90 52 88 72Z" fill="#8A9E5A" opacity="0.3" stroke="#5C6B3A" stroke-width="1.2"/>
+    <ellipse cx="44" cy="14" rx="4" ry="6" transform="rotate(-10 44 14)" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+    <circle cx="30" cy="64" r="2" fill="#5C6B3A" opacity="0.5"/>
+  </svg>
+  <h1 class="hero-title">Fleur <em>Atelier</em></h1>
+  <div class="hero-sub">Floral Design · New Jersey</div>
+  <p class="hero-desc">Handcrafted arrangements in the colours you love. Choose your palette, choose your size — we do the rest.</p>
+  <a href="#palette" class="btn-primary">Choose Your Palette</a>
+  <div class="scroll-hint">Explore</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <span class="section-eyebrow">How it works</span>
+  <h2 class="section-title">Three simple steps</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Pick your colour palette</strong>Choose the mood that speaks to you below.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Choose your arrangement & size</strong>Hand tie, vase, or basket — Petite, Signature, or Grand.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>DM us on Instagram</strong>Tell us your choices and we'll confirm availability and delivery.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PALETTE PICKER -->
+<section class="palette-section" id="palette">
+  <span class="section-eyebrow" style="text-align:center;display:block;">Step 1</span>
+  <h2 class="section-title">Choose your palette</h2>
+  <p class="palette-note">All arrangements are available in any of these palettes. Just mention your choice when you DM us.</p>
+  <div class="palettes">
+    <div class="palette-row" onclick="selectPalette(this)">
+      <div class="palette-dots">
+        <div class="dot" style="background:#F4B8C1;"></div>
+        <div class="dot" style="background:#F2C4B0;"></div>
+        <div class="dot" style="background:#FAF0E6;"></div>
+      </div>
+      <div class="palette-info">
+        <span class="palette-name">Blush</span>
+        <span class="palette-desc">Pink · Peach · Cream</span>
+      </div>
+    </div>
+    <div class="palette-row" onclick="selectPalette(this)">
+      <div class="palette-dots">
+        <div class="dot" style="background:#A8CEDE;"></div>
+        <div class="dot" style="background:#F5E87C;"></div>
+        <div class="dot" style="background:#F4B8C1;"></div>
+      </div>
+      <div class="palette-info">
+        <span class="palette-name">Dopamine</span>
+        <span class="palette-desc">Sky Blue · Yellow · Pink · White</span>
+        <span class="palette-badge">✦ Trending 2026</span>
+      </div>
+    </div>
+    <div class="palette-row" onclick="selectPalette(this)">
+      <div class="palette-dots">
+        <div class="dot" style="background:#C9B1D0;"></div>
+        <div class="dot" style="background:#F4B8C1;"></div>
+        <div class="dot" style="background:#8A9E5A;"></div>
+      </div>
+      <div class="palette-info">
+        <span class="palette-name">Garden</span>
+        <span class="palette-desc">Lavender · Pink · Sage</span>
+      </div>
+    </div>
+    <div class="palette-row" onclick="selectPalette(this)">
+      <div class="palette-dots">
+        <div class="dot" style="background:#6B2D6E;"></div>
+        <div class="dot" style="background:#8B1A2E;"></div>
+        <div class="dot" style="background:#D4601A;"></div>
+      </div>
+      <div class="palette-info">
+        <span class="palette-name">Gemstone</span>
+        <span class="palette-desc">Amethyst · Garnet · Amber</span>
+        <span class="palette-badge">✦ Trending 2026</span>
+      </div>
+    </div>
+    <div class="palette-row" onclick="selectPalette(this)">
+      <div class="palette-dots">
+        <div class="dot" style="background:#FAF0E6;"></div>
+        <div class="dot" style="background:#E8E0D0;"></div>
+        <div class="dot" style="background:#8A9E5A;"></div>
+      </div>
+      <div class="palette-info">
+        <span class="palette-name">Minimal</span>
+        <span class="palette-desc">White · Cream · Green</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="shop">
+  <div class="products-header">
+    <span class="section-eyebrow">Step 2</span>
+    <h2 class="section-title">Choose your arrangement</h2>
+    <p class="products-note">DM us your palette + arrangement + size and we'll take care of the rest.</p>
+  </div>
+  <div class="product-cards">
+    <div class="product-card">
+      <div class="product-left">
+        <div class="product-name">Hand Tie Bouquet</div>
+        <p class="product-desc">Delivered in an aqua box. Place in a vase with fresh water as soon as you receive it.</p>
+        <div class="tiers">
+          <div class="tier"><div class="tier-size">Petite</div><div class="tier-price">$150</div></div>
+          <div class="tier"><div class="tier-size">Signature</div><div class="tier-price">$220</div></div>
+          <div class="tier"><div class="tier-size">Grand</div><div class="tier-price">$320</div></div>
+        </div>
+        <a href="https://instagram.com/fleur_atelier_nj" target="_blank" class="product-cta">DM to Order →</a>
+      </div>
+      <svg class="product-icon" viewBox="0 0 52 52" fill="none">
+        <ellipse cx="20" cy="20" rx="9" ry="14" transform="rotate(-20 20 20)" fill="#8A9E5A" opacity="0.25"/>
+        <path d="M26 46 Q24 32 22 20 Q20 10 21 4" stroke="#5C6B3A" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+        <path d="M26 46 Q30 30 35 17 Q39 8 37 4" stroke="#5C6B3A" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <path d="M17 15 Q24 4 31 15 Q24 28 17 15Z" stroke="#1C1C1A" stroke-width="1.3" fill="none"/>
+        <circle cx="24" cy="17" r="2.8" stroke="#1C1C1A" stroke-width="1" fill="none"/>
+        <path d="M32 10 Q40 7 38 17 Q30 21 32 10Z" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+        <path d="M19 32 Q12 28 13 21 Q20 24 19 32Z" fill="#8A9E5A" opacity="0.3" stroke="#5C6B3A" stroke-width="1"/>
+        <rect x="20" y="40" width="12" height="5" rx="1" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+      </svg>
+    </div>
+    <div class="product-card">
+      <div class="product-left">
+        <div class="product-name">Vase Arrangement</div>
+        <p class="product-desc">Designed directly in a vase — ready to display the moment it arrives. Vase included.</p>
+        <div class="tiers">
+          <div class="tier"><div class="tier-size">Petite</div><div class="tier-price">$200</div></div>
+          <div class="tier"><div class="tier-size">Signature</div><div class="tier-price">$300</div></div>
+          <div class="tier"><div class="tier-size">Grand</div><div class="tier-price">$420</div></div>
+        </div>
+        <a href="https://instagram.com/fleur_atelier_nj" target="_blank" class="product-cta">DM to Order →</a>
+      </div>
+      <svg class="product-icon" viewBox="0 0 52 52" fill="none">
+        <ellipse cx="22" cy="18" rx="9" ry="13" transform="rotate(-15 22 18)" fill="#8A9E5A" opacity="0.25"/>
+        <path d="M26 36 Q24 24 22 14 Q20 6 22 2" stroke="#5C6B3A" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+        <path d="M26 36 Q30 22 35 12 Q39 4 37 2" stroke="#5C6B3A" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <path d="M17 12 Q24 2 31 12 Q24 24 17 12Z" stroke="#1C1C1A" stroke-width="1.3" fill="none"/>
+        <circle cx="24" cy="14" r="2.8" stroke="#1C1C1A" stroke-width="1" fill="none"/>
+        <path d="M32 8 Q39 5 38 14 Q30 18 32 8Z" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+        <path d="M19 28 Q12 24 13 18 Q20 20 19 28Z" fill="#8A9E5A" opacity="0.3" stroke="#5C6B3A" stroke-width="1"/>
+        <path d="M14 36 Q13 44 26 46 Q39 44 38 36 L36 33 L16 33Z" stroke="#1C1C1A" stroke-width="1.3" fill="none"/>
+        <path d="M13 33 Q13 31 26 31 Q39 31 39 33" stroke="#1C1C1A" stroke-width="1.3" fill="none"/>
+      </svg>
+    </div>
+    <div class="product-card">
+      <div class="product-left">
+        <div class="product-name">Basket Arrangement</div>
+        <p class="product-desc">A garden-style arrangement in a woven basket — a gift that feels as special as it looks. Basket included.</p>
+        <div class="tiers">
+          <div class="tier"><div class="tier-size">Petite</div><div class="tier-price">$180</div></div>
+          <div class="tier"><div class="tier-size">Signature</div><div class="tier-price">$280</div></div>
+          <div class="tier"><div class="tier-size">Grand</div><div class="tier-price">$400</div></div>
+        </div>
+        <a href="https://instagram.com/fleur_atelier_nj" target="_blank" class="product-cta">DM to Order →</a>
+      </div>
+      <svg class="product-icon" viewBox="0 0 52 52" fill="none">
+        <ellipse cx="22" cy="18" rx="9" ry="12" transform="rotate(-10 22 18)" fill="#8A9E5A" opacity="0.25"/>
+        <path d="M26 34 Q24 22 22 13 Q20 5 22 2" stroke="#5C6B3A" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+        <path d="M26 34 Q30 20 35 11 Q38 4 36 2" stroke="#5C6B3A" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <path d="M17 11 Q24 2 31 11 Q24 22 17 11Z" stroke="#1C1C1A" stroke-width="1.3" fill="none"/>
+        <circle cx="24" cy="13" r="2.8" stroke="#1C1C1A" stroke-width="1" fill="none"/>
+        <path d="M32 8 Q38 5 36 13 Q29 16 32 8Z" stroke="#1C1C1A" stroke-width="1.1" fill="none"/>
+        <path d="M19 26 Q12 22 13 17 Q20 19 19 26Z" fill="#8A9E5A" opacity="0.3" stroke="#5C6B3A" stroke-width="1"/>
+        <path d="M11 34 Q11 46 26 46 Q41 46 41 34 L39 31 L13 31Z" stroke="#1C1C1A" stroke-width="1.3" fill="none"/>
+        <path d="M11 31 Q11 29 26 29 Q41 29 41 31" stroke="#1C1C1A" stroke-width="1.3" fill="none"/>
+        <path d="M14 36 L38 36" stroke="#1C1C1A" stroke-width="0.7" opacity="0.4"/>
+        <path d="M13 40 L39 40" stroke="#1C1C1A" stroke-width="0.7" opacity="0.4"/>
+        <path d="M14 44 L38 44" stroke="#1C1C1A" stroke-width="0.7" opacity="0.4"/>
+        <path d="M19 31 L19 46" stroke="#1C1C1A" stroke-width="0.7" opacity="0.3"/>
+        <path d="M26 31 L26 46" stroke="#1C1C1A" stroke-width="0.7" opacity="0.3"/>
+        <path d="M33 31 L33 46" stroke="#1C1C1A" stroke-width="0.7" opacity="0.3"/>
+        <path d="M17 31 Q17 24 26 24 Q35 24 35 31" stroke="#1C1C1A" stroke-width="1.2" fill="none"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY CAROUSEL -->
+<section class="gallery" id="gallery">
+  <div class="gallery-head">
+    <span class="section-eyebrow">The work</span>
+    <h2 class="section-title">From the atelier.</h2>
+  </div>
+
+  <div class="carousel-wrap">
+    <div class="carousel-track" id="cTrack">
+
+      <div class="carousel-card">
+        <div class="c-placeholder">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21,15 16,10 5,21"/>
+          </svg>
+          <span>Your photo</span>
+        </div>
+        <div class="c-caption">
+          <div class="c-tag">Hand Tie · Signature</div>
+          <div class="c-name">Garden palette</div>
+          <div class="c-price">from $220</div>
+        </div>
+      </div>
+
+      <div class="carousel-card">
+        <div class="c-placeholder">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21,15 16,10 5,21"/>
+          </svg>
+          <span>Your photo</span>
+        </div>
+        <div class="c-caption">
+          <div class="c-tag">Vase · Petite</div>
+          <div class="c-name">Blush palette</div>
+          <div class="c-price">from $200</div>
+        </div>
+      </div>
+
+      <div class="carousel-card">
+        <div class="c-placeholder">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21,15 16,10 5,21"/>
+          </svg>
+          <span>Your photo</span>
+        </div>
+        <div class="c-caption">
+          <div class="c-tag">Basket · Grand</div>
+          <div class="c-name">Dopamine palette</div>
+          <div class="c-price">from $400</div>
+        </div>
+      </div>
+
+      <div class="carousel-card">
+        <div class="c-placeholder">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21,15 16,10 5,21"/>
+          </svg>
+          <span>Your photo</span>
+        </div>
+        <div class="c-caption">
+          <div class="c-tag">Hand Tie · Grand</div>
+          <div class="c-name">Gemstone palette</div>
+          <div class="c-price">from $320</div>
+        </div>
+      </div>
+
+      <div class="carousel-card">
+        <div class="c-placeholder">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21,15 16,10 5,21"/>
+          </svg>
+          <span>Your photo</span>
+        </div>
+        <div class="c-caption">
+          <div class="c-tag">Vase · Signature</div>
+          <div class="c-name">Minimal palette</div>
+          <div class="c-price">from $300</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="carousel-controls">
+    <button class="c-btn" id="cPrev" aria-label="Previous">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15,18 9,12 15,6"/></svg>
+    </button>
+    <button class="c-btn" id="cNext" aria-label="Next">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9,18 15,12 9,6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events" id="events">
+  <span class="section-eyebrow">Beyond the everyday</span>
+  <h2 class="section-title">Planning something bigger?</h2>
+  <p class="events-desc">We design full floral experiences for weddings, corporate events, and celebrations across New Jersey.</p>
+  <div class="event-tags">
+    <div class="event-tag">Weddings</div>
+    <div class="event-tag">Corporate Events</div>
+    <div class="event-tag">Celebrations</div>
+  </div>
+  <a href="https://instagram.com/fleur_atelier_nj" target="_blank" class="btn-outline">Tell us about your event →</a>
+</section>
+
+<footer>
+  <div class="footer-logo">Fleur <em>Atelier</em></div>
+  <div class="footer-info">Bergen County · New Jersey<br>Floral Design</div>
+  <a href="https://instagram.com/fleur_atelier_nj" target="_blank" class="footer-ig">@fleur_atelier_nj</a>
+</footer>
+
+<script>
+  function selectPalette(el) {
+    document.querySelectorAll('.palette-row').forEach(r => r.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  const track = document.getElementById('cTrack');
+  const getStep = () => (track.querySelector('.carousel-card')?.offsetWidth || 260) + 10;
+
+  document.getElementById('cNext').addEventListener('click', () =>
+    track.scrollBy({ left: getStep(), behavior: 'smooth' }));
+  document.getElementById('cPrev').addEventListener('click', () =>
+    track.scrollBy({ left: -getStep(), behavior: 'smooth' }));
+
+  // drag to scroll on desktop
+  let down = false, sx, sl;
+  track.addEventListener('mousedown', e => { down = true; sx = e.pageX - track.offsetLeft; sl = track.scrollLeft; });
+  track.addEventListener('mouseleave', () => down = false);
+  track.addEventListener('mouseup', () => down = false);
+  track.addEventListener('mousemove', e => {
+    if (!down) return;
+    e.preventDefault();
+    track.scrollLeft = sl - (e.pageX - track.offsetLeft - sx) * 1.4;
+  });
+</script>
+</body>
+</html>
